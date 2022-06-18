@@ -45,7 +45,7 @@ scene("game", () => {
     const levelCfg = {
         width: 20,
         height: 20,
-        '=': [sprite('block',solid())], //Equal to the block img
+        '=': [sprite('block'),solid()], //Equal to the block img
         "$": [sprite('coin')],
         '%': [sprite('surprise'), solid(), 'coin-surprise'],
         '*': [sprite('surprise'), solid(), 'mushroom-surprise'],
@@ -56,12 +56,16 @@ scene("game", () => {
         '+': [sprite('pipe-top-right'),solid(), scale(0.5)],
         '^': [sprite('evil-shroom'),solid()],
         '#': [sprite('mushroom'),solid()],
-        
-
-
     }
 
     const gameLevel = addLevel(map, levelCfg)
+
+    const player = add([
+        sprite('mario'), solid(), //Add mario
+        pos(30,0), // Starting position
+        body(), // fool gravity at the start
+        origin('bot') // implement body to avoid error.
+    ])
 
 })
 
