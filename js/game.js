@@ -70,9 +70,37 @@ scene("game", () => {
             value: 'test',
         }
     ])
-
+    //Adding text "test"
     add([text('level ' + 'test', pos(4,6))])
 
+    //Function to make mario big and small
+    function big(){
+        let timer = 0
+        let isBig = false
+        return{
+            update(){
+                if(isBig){
+                    timer -=dt()
+                    if(timer <= 0){
+                        this.smallify()
+                    }
+                }
+            },
+            isBig(){
+                return isBig
+            },
+            smallify() {
+                this.scale = vec2(1)
+                timer = 0
+                isBig = false
+            },
+            biggify(time){
+                this.scale = vec2(2)
+                timer = time
+                isBig = true
+            },
+        }
+    }
 
 
     //Adding Mario 
@@ -80,6 +108,7 @@ scene("game", () => {
         sprite('mario'), solid(), //Add mario
         pos(30,0), // Starting position
         body(), // fool gravity at the start
+        big(), // to change mario size
         origin('bot') // implement body to avoid error.
     ])
 
@@ -90,7 +119,7 @@ scene("game", () => {
     const JUMP_FORCE = 360
     
     
-    //Adding keybord events
+    //Adding keyboard events
     keyDown('left', () => {
         player.move(-MOVE_SPEED,0)
     })
