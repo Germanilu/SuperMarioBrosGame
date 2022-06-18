@@ -60,12 +60,50 @@ scene("game", () => {
 
     const gameLevel = addLevel(map, levelCfg)
 
+
+    //This is the text score on the game
+    const scoreLabel = add([
+        text('test'),
+        pos(30,6),
+        layer('ui'), //Added to the ui layer so it doesn't interfere witht he game
+        {
+            value: 'test',
+        }
+    ])
+
+    add([text('level ' + 'test', pos(4,6))])
+
+
+
+    //Adding Mario 
     const player = add([
         sprite('mario'), solid(), //Add mario
         pos(30,0), // Starting position
         body(), // fool gravity at the start
         origin('bot') // implement body to avoid error.
     ])
+
+    //player speed movement
+    const MOVE_SPEED = 120
+
+    //Player jump force
+    const JUMP_FORCE = 360
+    
+    
+    //Adding keybord events
+    keyDown('left', () => {
+        player.move(-MOVE_SPEED,0)
+    })
+
+    keyDown('right', () => {
+        player.move(MOVE_SPEED,0)
+    })
+
+    keyPress('space', () => {
+        if(player.grounded()){
+            player.jump(JUMP_FORCE)
+        }
+    })
 
 })
 
