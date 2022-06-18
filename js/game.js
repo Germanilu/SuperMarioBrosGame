@@ -34,7 +34,7 @@ scene("game", () => {
         '                                 ',
         '                                 ',
         '                                 ',
-        '       %  =*=%=                        ',
+        '       %  =*=%=                     ',
         '                                 ',
         '                                 ',
         '                      -+          ',
@@ -55,7 +55,7 @@ scene("game", () => {
         '-': [sprite('pipe-top-left'),solid(), scale(0.5)],
         '+': [sprite('pipe-top-right'),solid(), scale(0.5)],
         '^': [sprite('evil-shroom'),solid()],
-        '#': [sprite('mushroom'),solid()],
+        '#': [sprite('mushroom'),solid(), 'mushroom', body()],
     }
 
     const gameLevel = addLevel(map, levelCfg)
@@ -112,11 +112,37 @@ scene("game", () => {
         origin('bot') // implement body to avoid error.
     ])
 
-    //player speed movement
-    const MOVE_SPEED = 120
+     //player speed movement
+     const MOVE_SPEED = 120
 
-    //Player jump force
-    const JUMP_FORCE = 360
+     //Player jump force
+     const JUMP_FORCE = 360
+
+    //Action to move mushroom
+    action('mushroom', (m) => {
+        m.move(40,0)
+    })
+
+    // on headbump destroy blocksurprise and show coin
+    player.on("headbump", (obj) => {
+        if (obj.is('coin-surprise')) {
+            gameLevel.spawn('$', obj.gridPos.sub(0,1))
+            destroy(obj)
+            gameLevel.spawn('}',obj.gridPos.sub(0,0))
+        }
+        //on headbump destroy block and show coin
+        if (obj.is('mushroom-surprise')) {
+            gameLevel.spawn('#', obj.gridPos.sub(0,1))
+            destroy(obj)
+            gameLevel.spawn('}',obj.gridPos.sub(0,0))
+        }
+    })
+
+    //If player collides with mushroom it biggify for 6 seconds
+   player.collides('mushroom', (m) => {
+    destroy(m)
+    player.biggify(6)
+   })
     
     
     //Adding keyboard events
