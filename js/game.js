@@ -23,8 +23,8 @@ loadSprite('pipe-bottom-left','/img/pipe-bottom-left.png') //Pipe
 loadSprite('pipe-bottom-right','/img/pipe-bottom-right.png') //Pipe
 
 
-
-scene("game", () => {
+//Game scene
+scene("game", ({score }) => {
     layers(['bg','obj','ui'],'obj')
 
 //Map of the game
@@ -38,7 +38,7 @@ scene("game", () => {
         '                                 ',
         '                                 ',
         '                      -+          ',
-        '                ^   ^ ()          ',
+        '             ^    ^   ()          ',
         '=========================  ======',
     ]
 
@@ -54,7 +54,7 @@ scene("game", () => {
         ')': [sprite('pipe-bottom-right'),solid(), scale(0.5)],
         '-': [sprite('pipe-top-left'),solid(), scale(0.5)],
         '+': [sprite('pipe-top-right'),solid(), scale(0.5)],
-        '^': [sprite('evil-shroom'),solid()],
+        '^': [sprite('evil-shroom'),solid(), 'dangerous' ],
         '#': [sprite('mushroom'),solid(), 'mushroom', body()],
     }
 
@@ -63,11 +63,11 @@ scene("game", () => {
 
     //This is the text score on the game
     const scoreLabel = add([
-        text('test'),
+        text(score),
         pos(30,6),
         layer('ui'), //Added to the ui layer so it doesn't interfere witht he game
         {
-            value: 'test',
+            value: score,
         }
     ])
     //Adding text "test"
@@ -123,9 +123,16 @@ scene("game", () => {
      //Player jump force when big
      const BIG_JUMP_FORCE = 450
 
-
      let CURRENT_JUMP_FORCE = JUMP_FORCE
     
+     //Enemy speed
+     const ENEMY_SPEED = 20
+
+     let isJumping = true
+
+
+     //falling death
+     const FALL_DEATH = 400
 
     //Action to move mushroom
     action('mushroom', (m) => {
@@ -159,6 +166,29 @@ scene("game", () => {
     scoreLabel.value++
     scoreLabel.text = scoreLabel.value
    })
+
+   
+   //Movement enemy
+   action('dangerous', (d) => {
+    d.move(-ENEMY_SPEED,0)
+   })
+
+   // If player collides go to lose scene (if jump on head no)
+   player.collides('dangerous', (d) => {
+    if(isJumping){
+        destroy(d)
+    }else{
+        go('lose', {score: scoreLabel.value})
+    }
+   })
+
+   //if player fall will die + camera position following player
+   player.action ( () => {
+    camPos(player.pos)
+    if(player.pos.y >= FALL_DEATH){
+        go('lose', {score: scoreLabel.value})
+    }
+   })
     
     
     //Adding keyboard events
@@ -169,13 +199,26 @@ scene("game", () => {
     keyDown('right', () => {
         player.move(MOVE_SPEED,0)
     })
+
+    player.action(() => {
+        if (player.grounded()) {
+            isJumping = false
+        }
+    })
+
     //Jump
     keyPress('space', () => {
         if(player.grounded()){
+            isJumping = true
             player.jump(CURRENT_JUMP_FORCE)
         }
     })
 
 })
 
-start("game")
+//Lose scene
+scene('lose', ({score}) => {
+    add ([text (score,32), origin('center'), pos(width()/2, height()/2)])
+})
+
+start("game", {score: 0})
