@@ -46,7 +46,7 @@ scene("game", () => {
         width: 20,
         height: 20,
         '=': [sprite('block'),solid()], //Equal to the block img
-        "$": [sprite('coin')],
+        "$": [sprite('coin'), 'coin'],
         '%': [sprite('surprise'), solid(), 'coin-surprise'],
         '*': [sprite('surprise'), solid(), 'mushroom-surprise'],
         '}': [sprite('unboxed'),solid()],
@@ -73,13 +73,14 @@ scene("game", () => {
     //Adding text "test"
     add([text('level ' + 'test', pos(4,6))])
 
-    //Function to make mario big and small
+    //Function to make mario big and small and edit jump
     function big(){
         let timer = 0
         let isBig = false
         return{
             update(){
                 if(isBig){
+                    CURRENT_JUMP_FORCE = BIG_JUMP_FORCE
                     timer -=dt()
                     if(timer <= 0){
                         this.smallify()
@@ -91,6 +92,7 @@ scene("game", () => {
             },
             smallify() {
                 this.scale = vec2(1)
+                CURRENT_JUMP_FORCE = JUMP_FORCE
                 timer = 0
                 isBig = false
             },
@@ -118,6 +120,13 @@ scene("game", () => {
      //Player jump force
      const JUMP_FORCE = 360
 
+     //Player jump force when big
+     const BIG_JUMP_FORCE = 450
+
+
+     let CURRENT_JUMP_FORCE = JUMP_FORCE
+    
+
     //Action to move mushroom
     action('mushroom', (m) => {
         m.move(40,0)
@@ -143,6 +152,13 @@ scene("game", () => {
     destroy(m)
     player.biggify(6)
    })
+
+   //if player collides with coin destroy coin and edit score
+   player.collides('coin', (c) => {
+    destroy(c)
+    scoreLabel.value++
+    scoreLabel.text = scoreLabel.value
+   })
     
     
     //Adding keyboard events
@@ -153,10 +169,10 @@ scene("game", () => {
     keyDown('right', () => {
         player.move(MOVE_SPEED,0)
     })
-
+    //Jump
     keyPress('space', () => {
         if(player.grounded()){
-            player.jump(JUMP_FORCE)
+            player.jump(CURRENT_JUMP_FORCE)
         }
     })
 
