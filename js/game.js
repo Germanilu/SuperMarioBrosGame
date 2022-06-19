@@ -9,24 +9,24 @@ kaboom({
 //Loading img
 
 //loadRoot('https://i.imgur.com/') //Load the main root  https://imgur.com/pcWySG3
-loadSprite('coin', '/img/coin.png') //Get the coing
-loadSprite('evil-shroom', '/img/evil-shroom.png') //Evil Shroom
-loadSprite('brick', '/img/brick.png') //Brick
-loadSprite('block', '/img/block.png') //Block
-loadSprite('mario', '/img/mario.png') //Mario
-loadSprite('mushroom', '/img/mushroom.png') //Mushroom
-loadSprite('surprise', '/img/surprise.png') //Surprise Block
-loadSprite('unboxed', '/img/unboxed.png') //unBoxed
-loadSprite('pipe-top-left', '/img/pipe-top-left.png') //Pipe
-loadSprite('pipe-top-right', '/img/pipe-top-right.png') //Pipe
-loadSprite('pipe-bottom-left', '/img/pipe-bottom-left.png') //Pipe
-loadSprite('pipe-bottom-right', '/img/pipe-bottom-right.png') //Pipe
+loadSprite('coin', './img/coin.png') //Get the coing
+loadSprite('evil-shroom', './img/evil-shroom.png') //Evil Shroom
+loadSprite('brick', './img/brick.png') //Brick
+loadSprite('block', './img/block.png') //Block
+loadSprite('mario', './img/mario.png') //Mario
+loadSprite('mushroom', './img/mushroom.png') //Mushroom
+loadSprite('surprise', './img/surprise.png') //Surprise Block
+loadSprite('unboxed', './img/unboxed.png') //unBoxed
+loadSprite('pipe-top-left', './img/pipe-top-left.png') //Pipe
+loadSprite('pipe-top-right', './img/pipe-top-right.png') //Pipe
+loadSprite('pipe-bottom-left', './img/pipe-bottom-left.png') //Pipe
+loadSprite('pipe-bottom-right', './img/pipe-bottom-right.png') //Pipe
 
-loadSprite('blue-block', '/img/blue-block.png') 
-loadSprite('blue-brick', '/img/blue-brick.png') 
-loadSprite('blue-steal', '/img/blue-steal.png') 
-loadSprite('blue-evil-shroom', '/img/blue-evil-shroom.png') 
-loadSprite('blue-surprise', '/img/blue-surprise.png') 
+loadSprite('blue-block', './img/blue-block.png') 
+loadSprite('blue-brick', './img/blue-brick.png') 
+loadSprite('blue-steal', './img/blue-steal.png') 
+loadSprite('blue-evil-shroom', './img/blue-evil-shroom.png') 
+loadSprite('blue-surprise', '../img/blue-surprise.png') 
 
 
 //Game scene
