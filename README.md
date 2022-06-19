@@ -1,6 +1,6 @@
 # SuperMario Bros Game
 
-for the goods all times, i create the epic game SuperMario using Kaboom.
+For the goods all days, i create the epic game SuperMario using Kaboom.
 
 ![firstLevel](img/firstlevel.png)
 

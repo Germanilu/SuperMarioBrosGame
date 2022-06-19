@@ -35,6 +35,10 @@ scene("game", ({ level, score }) => {
 
     //Map of the game
     const maps = [
+
+        
+        
+       
         [
             '                                                ',
             '                                                ',
@@ -45,16 +49,31 @@ scene("game", ({ level, score }) => {
             '                                                ',
             '                                   ==           ',
             '                                              -+',
-            '             ^    ^                  ^        ()',
+            '             ^    ^        =        ^         ()',
             '=========================  =====================',
         ],
         [
+            '                                                                                                             ', 
+            '                                                                          %%%%                               ',
+            '                                                                                                             ',
+            '                                                                                                             ',
+            '                                   }}}                                   =====                               ',
+            '                          =%=*%                                                                              ',
+            '                                           ====                                                              ',
+            '                 =             ^  =                               }}                                       -+',
+            '             }}  ==================                     %*%                                        *       ()',
+            '            }}}                                                                                            ()',
+            '           }}}}     ^                ^ =           =            ^          =   ^  ^    ^     =             ()',
+            '========================================           ==========================================================',
+        ],
+        [
+            '€                                                €',
+            '€                                           @    €',
             '€                                                €',
             '€                                                €',
+            '€                                           !!   €',
             '€                                                €',
-            '€                                                €',
-            '€                                                €',
-            '€       @@@@@@@                                  €',
+            '€       }@}@}@}                                  €',
             '€                                      xx        €',
             '€                 €€                  xxx        €',
             '€                                    xxxx      -+€',
@@ -76,13 +95,15 @@ scene("game", ({ level, score }) => {
         ')': [sprite('pipe-bottom-right'), solid(), scale(0.5)],
         '-': [sprite('pipe-top-left'), solid(), scale(0.5), 'pipe'],
         '+': [sprite('pipe-top-right'), solid(), scale(0.5), 'pipe'],
-        '^': [sprite('evil-shroom'), solid(), 'dangerous'],
+        '^': [sprite('evil-shroom'), solid(), 'dangerous', body(), {dir: -1, timer: 0}],
         '#': [sprite('mushroom'), solid(), 'mushroom', body()],
         '!': [sprite('blue-block'), solid(), scale(0.5)],
         '€': [sprite('blue-brick'), solid(), scale(0.5)],
-        'z': [sprite('blue-evil-shroom'), solid(), scale(0.5), 'dangerous'],
+        'z': [sprite('blue-evil-shroom'), solid(), scale(0.5), 'dangerous', {dir: -1, timer: 0}],
         '@': [sprite('blue-surprise'), solid(), scale(0.5), 'coin-surprise'],
         'x': [sprite('blue-steal'), solid(), scale(0.5), ],
+        
+        
     }
 
     const gameLevel = addLevel(maps[level], levelCfg)
@@ -142,6 +163,10 @@ scene("game", ({ level, score }) => {
         origin('bot') // implement body to avoid error.
     ])
 
+
+    
+  
+
     //player speed movement
     const MOVE_SPEED = 120
 
@@ -166,6 +191,18 @@ scene("game", ({ level, score }) => {
     action('mushroom', (m) => {
         m.move(40, 0)
     })
+
+    //Movement enemy
+    action('dangerous', (d) => {
+        d.move( d.dir * ENEMY_SPEED, 0)
+        d.timer -=dt()
+        if(d.timer <= 0) {
+            d.dir = -d.dir
+            d.timer = rand(2,7)
+        }
+    })
+
+   
 
     // on headbump destroy blocksurprise and show coin
     player.on("headbump", (obj) => {
@@ -196,11 +233,7 @@ scene("game", ({ level, score }) => {
     })
 
 
-    //Movement enemy
-    action('dangerous', (d) => {
-        d.move(-ENEMY_SPEED, 0)
-        
-    })
+    
 
     // If player collides go to lose scene (if jump on head no)
     player.collides('dangerous', (d) => {
