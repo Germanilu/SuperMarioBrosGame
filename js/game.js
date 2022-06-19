@@ -36,30 +36,30 @@ scene("game", ({ level, score }) => {
     //Map of the game
     const maps = [
         [
-            '                                 ',
-            '                                 ',
-            '                                 ',
-            '                                 ',
-            '                                 ',
-            '       %  =*=%=                  ',
-            '                                 ',
-            '                                 ',
-            '                      -+         ',
-            '             ^    ^   ()         ',
-            '=========================  ======',
+            '                                                ',
+            '                                                ',
+            '                                                ',
+            '                                                ',
+            '                                                ',
+            '       %  =*=%=                       %%%%      ',
+            '                                                ',
+            '                                   ==           ',
+            '                                              -+',
+            '             ^    ^                  ^        ()',
+            '=========================  =====================',
         ],
         [
-            '€                                €',
-            '€                                €',
-            '€                                €',
-            '€                                €',
-            '€                                €',
-            '€       @@@@@@@                  €',
-            '€                                €',
-            '€                       x x      €',
-            '€                     x x x    -+€',
-            '€            z    z x x x x    ()€',
-            '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',
+            '€                                                €',
+            '€                                                €',
+            '€                                                €',
+            '€                                                €',
+            '€                                                €',
+            '€       @@@@@@@                                  €',
+            '€                                      xx        €',
+            '€                 €€                  xxx        €',
+            '€                                    xxxx      -+€',
+            '€            z    z                 xxxxx      ()€',
+            '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',
         ],
 
     ] 
@@ -125,7 +125,7 @@ scene("game", ({ level, score }) => {
                 isBig = false
             },
             biggify(time) {
-                this.scale = vec2(2)
+                this.scale = vec2(1.5)
                 timer = time
                 isBig = true
             },
@@ -199,6 +199,7 @@ scene("game", ({ level, score }) => {
     //Movement enemy
     action('dangerous', (d) => {
         d.move(-ENEMY_SPEED, 0)
+        
     })
 
     // If player collides go to lose scene (if jump on head no)
